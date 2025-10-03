@@ -48,13 +48,6 @@ What is Docker Compose?
     - Airflow container → runs DAGs and webserver
     - Postgres container → stores your data
 
-
-+-----------------+        docker network       +----------------+
-|  Airflow        |  ------------------------> | Postgres       |
-|  Container      |                             | Container      |
-|  (DAG runs)     |                             | (Database)     |
-+-----------------+                             +----------------+
-
 Docker Container
 - When you define a Postgres service in Docker Compose, Docker creates a Postgres container.
 
@@ -96,20 +89,6 @@ When you run Airflow in Docker (via Astronomer or docker-compose), the container
 5. Logs folder
 - Stores logs for every task execution
 
-**Interaction Diagram**
-
-+-----------------+       docker network        +----------------+
-|  Airflow        |  ------------------------> | Postgres       |
-|  Container      |                              | Container      |
-|  - Webserver    |                              | - Database     |
-|  - Scheduler    |                              |                |
-|  - Executor     |                              |                |
-|  - DAGs Folder  |                              |                |
-+-----------------+                              +----------------+
-         |
-         | DAG triggers tasks (extract, transform, load)
-         v
-    Your Python code runs inside the Airflow container
 
 # Weather ETL Pipeline Docker Setup – Step by Step
 
