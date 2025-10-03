@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'dags/**'    # Trigger only when something inside the dags folder changes
+      - 'dags/**'    # Trigger only when something inside the dags folder change
 
 jobs:
   deploy:
