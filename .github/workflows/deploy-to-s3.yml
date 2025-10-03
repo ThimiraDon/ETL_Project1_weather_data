@@ -23,4 +23,4 @@ jobs:
       - name: Sync DAGs folder to S3
         run: |
           echo "Syncing dags to S3..."
-          aws s3 sync ./dags s3://${{ secrets.AWS_S3_BUCKET }}/dags --exact-timestamps
+          aws s3 sync ./dags s3://${{ secrets.AWS_S3_BUCKET }} --exact-timestamps --delete
