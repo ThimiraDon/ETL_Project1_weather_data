@@ -1,27 +1,25 @@
-name: Deploy DAGs to s3
+name: Deploy DAGs to S3
 
 on:
-    push:
-        branches:
-            - main #default branch
-
+  push:
+    branches:
+      - main  # or 'master' if that's your default branch
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            - name: Sync DAGs to S3
-              uses: aws-actions/s3-sync@v2
-              with:
-                source: dags  # path to your local DAG folder
-                destination: s3://${{ secrets.AWS_S3_BUCKET }}/dags
-                region: ${{ secrets.AWS_REGION }}
-                delete: true
-              env:
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Sync DAGs to S3
+        run: |
+          aws s3 sync dags s3://${{ secrets.AWS_S3_BUCKET }}/dags --delete
