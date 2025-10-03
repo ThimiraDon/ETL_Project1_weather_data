@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db_container
+    environment:
+      POSTGRES_USER:Thimira
+      POSTGRES_PASSWORD:admin
+      POSTGRES_DB:weather_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+airflow:
+  image: apache/airflow:2.7.1-python3.11
+  depends_on: 
+   - postgres
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://Thimira:admin@postgres:5432/weather_db
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./requirements.txt:/requirements.txt
+  ports:
+    - "8080:8080"
+  command: webserver
+
+
+
