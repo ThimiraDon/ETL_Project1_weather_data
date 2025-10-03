@@ -3,7 +3,7 @@ name: Deploy DAGs to S3
 on:
   push:
     branches:
-      - main  # or 'master' if that's your default branch
+      - main   # Change if your default branch is different
 
 jobs:
   deploy:
